@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hololens W2.CSharp", "Hololens W2.CSharp.csproj", "{BFF7EB09-92C9-F171-14ED-DC92A7AA677B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFF7EB09-92C9-F171-14ED-DC92A7AA677B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF7EB09-92C9-F171-14ED-DC92A7AA677B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF7EB09-92C9-F171-14ED-DC92A7AA677B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF7EB09-92C9-F171-14ED-DC92A7AA677B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
