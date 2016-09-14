@@ -3,51 +3,60 @@ using System.Collections;
 
 public class grid : MonoBehaviour
 {
-    public GameObject plane;
-
-    public bool showMain = true;
-    public bool showSub = false;
-
-    public float gridSizeX;
-    public float gridSizeY;
-    public float gridSizeZ;
-
-    public float smallStep;
-    public float largeStep;
-
-    public float startX;
-    public float startY;
-    public float startZ;
-
-    private float offsetY = 0;
-    private float scrollRate = 0.1f;
-    private float lastScroll = 0f;
 
     private Material lineMaterial;
 
-    private Color mainColor = new Color(0f, 1f, 0f, 1f);
-    private Color subColor = new Color(0f, 0.5f, 0f, 1f);
-
     void Start()
     {
+        MakeLines();
+
 
     }
 
-    void Update()
+    void MakeLines()
     {
-        if (lastScroll + scrollRate < Time.time)
+        CreateLineMaterial();
+        GameObject grid = new GameObject;
+    
+        Color mainColor = new Color(0f, 1f, 0f, 0.2f);
+        Color subColor = new Color(0f, 0.5f, 0f, 0.2f);
+        for (float x = 0.0f; x < 1.0f; x += 0.1f)
         {
-            if (Input.GetKey(KeyCode.KeypadPlus))
+            for (float y = 0.0f; y < 1.0f; y += 0.1f)
             {
-                plane.transform.position = new Vector3(plane.transform.position.x, plane.transform.position.y + smallStep, plane.transform.position.z);
-                offsetY += smallStep;
-                lastScroll = Time.time;
+                for (float z = 0.0f; z < 1.0f; z += 0.1f)
+                {
+
+                    //private GameObject prefab = Resources.Load("Prefabs/gridcell", GameObject);
+                    GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    cube.transform.position = new Vector3(x, y, z);
+                    cube.transform.localScale = new Vector3(0.1f, 0.002f, 0.002f);
+
+                    cube.GetComponent<Renderer>().material = lineMaterial;
+                   
+                    cube.GetComponent<Renderer>().material.color = new Color(0f, 1f, 0f, 0.2f);
+                    cube.transform.parent = grid;
+
+
+                }
             }
-            if (Input.GetKey(KeyCode.KeypadMinus))
+        }
+    }
+
+    void loadBlenderGrid()
+    {
+        for (float x = 0.0f; x < 1.0f; x += 0.1f)
+        {
+            for (float y = 0.0f; y < 1.0f; y += 0.1f)
             {
-                plane.transform.position = new Vector3(plane.transform.position.x, plane.transform.position.y - smallStep, plane.transform.position.z);
-                offsetY -= smallStep;
-                lastScroll = Time.time;
+                for (float z = 0.0f; z < 1.0f; z += 0.1f)
+                {
+
+                    //private GameObject prefab = Resources.Load("Prefabs/gridcell", GameObject);
+                    GameObject temp = Instantiate(Resources.Load("gridcell"), new Vector3(x, y, z), Quaternion.identity) as GameObject;
+                    temp.transform.localScale *= 0.1f;
+
+                }
             }
         }
     }
@@ -57,95 +66,17 @@ public class grid : MonoBehaviour
 
         if (!lineMaterial)
         {
-            Shader shader = Shader.Find("Plane/No zTest");
-            lineMaterial = new Material(shader);
-            /*lineMaterial = new Material("Shader \"Lines/Colored Blended\" {" +
-                "SubShader { Pass { " +
-                "    Blend SrcAlpha OneMinusSrcAlpha " +
-                "    ZWrite Off Cull Off Fog { Mode Off } " +
-                "    BindChannels {" +
-                "      Bind \"vertex\", vertex Bind \"color\", color }" +
-                "} } }");*/
-            lineMaterial.hideFlags = HideFlags.HideAndDontSave;
-            lineMaterial.shader.hideFlags = HideFlags.HideAndDontSave;
+            //Shader shader = Shader.Find("Plane/No zTest");
+            //lineMaterial = new Material(shader);
+            //lineMaterial.hideFlags = HideFlags.HideAndDontSave;
+            //lineMaterial.shader.hideFlags = HideFlags.HideAndDontSave;
+            lineMaterial = new Material(Shader.Find("Standard"));
+            lineMaterial.color  = new Color(0f, 1f, 0f, 0.2f);
         }
     }
 
-    void OnPostRender()
-    {
-        CreateLineMaterial();
-        // set the current material
-        lineMaterial.SetPass(0);
-
-        GL.Begin(GL.LINES);
-
-        if (showSub)
-        {
-            GL.Color(subColor);
-
-            //Layers
-            for (float j = 0; j <= gridSizeY; j += smallStep)
-            {
-                //X axis lines
-                for (float i = 0; i <= gridSizeZ; i += smallStep)
-                {
-                    GL.Vertex3(startX, j + offsetY, startZ + i);
-                    GL.Vertex3(gridSizeX, j + offsetY, startZ + i);
-                }
-
-                //Z axis lines
-                for (float i = 0; i <= gridSizeX; i += smallStep)
-                {
-                    GL.Vertex3(startX + i, j + offsetY, startZ);
-                    GL.Vertex3(startX + i, j + offsetY, gridSizeZ);
-                }
-            }
-
-            //Y axis lines
-            for (float i = 0; i <= gridSizeZ; i += smallStep)
-            {
-                for (float k = 0; k <= gridSizeX; k += smallStep)
-                {
-                    GL.Vertex3(startX + k, startY + offsetY, startZ + i);
-                    GL.Vertex3(startX + k, gridSizeY + offsetY, startZ + i);
-                }
-            }
-        }
-
-        if (showMain)
-        {
-            GL.Color(mainColor);
-
-            //Layers
-            for (float j = 0; j <= gridSizeY; j += largeStep)
-            {
-                //X axis lines
-                for (float i = 0; i <= gridSizeZ; i += largeStep)
-                {
-                    GL.Vertex3(startX, j + offsetY, startZ + i);
-                    GL.Vertex3(gridSizeX, j + offsetY, startZ + i);
-                }
-
-                //Z axis lines
-                for (float i = 0; i <= gridSizeX; i += largeStep)
-                {
-                    GL.Vertex3(startX + i, j + offsetY, startZ);
-                    GL.Vertex3(startX + i, j + offsetY, gridSizeZ);
-                }
-            }
-
-            //Y axis lines
-            for (float i = 0; i <= gridSizeZ; i += largeStep)
-            {
-                for (float k = 0; k <= gridSizeX; k += largeStep)
-                {
-                    GL.Vertex3(startX + k, startY + offsetY, startZ + i);
-                    GL.Vertex3(startX + k, gridSizeY + offsetY, startZ + i);
-                }
-            }
-        }
 
 
-        GL.End();
-    }
+    
+  
 }
