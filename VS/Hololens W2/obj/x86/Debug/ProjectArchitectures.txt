@@ -1,4 +1,4 @@
-C:\Users\maarten\Documents\Hololens W2\UWP\Assembly-CSharp\Assembly-CSharp.csproj;x86
-C:\Users\maarten\Documents\Hololens W2\UWP\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj;x86
-C:\Users\maarten\Documents\Hololens W2\UWP\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj;x86
-C:\Users\maarten\Documents\Hololens W2\VS\Hololens W2\Hololens W2.csproj;x86
+C:\Users\maarten\workspace\HoloLens-Battleship\UWP\Assembly-CSharp\Assembly-CSharp.csproj;x86
+C:\Users\maarten\workspace\HoloLens-Battleship\UWP\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj;x86
+C:\Users\maarten\workspace\HoloLens-Battleship\UWP\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj;x86
+C:\Users\maarten\workspace\HoloLens-Battleship\VS\Hololens W2\Hololens W2.csproj;x86

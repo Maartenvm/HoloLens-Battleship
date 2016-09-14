@@ -7,7 +7,7 @@
 # Default behavior is to never overwrite files
 Hololens W2.sln: modified
 Hololens W2\App.cs: F2A15A9244F7A7CC0DB2505545F362F8
-Hololens W2\Hololens W2.csproj: 919D666A739888F84408FB9365DC6FB2
+Hololens W2\Hololens W2.csproj: 1ACCFC1CBF9EE14EBE4C8E14107B95E3
 Hololens W2\Hololens W2.csproj.user: modified
 Hololens W2\Package.appxmanifest: 018BB0895493BA2D1DBF5FBAAB089EEF
 Hololens W2\project.json: 1D02BC64BAC0D041019673A1C4C51737
