@@ -45,12 +45,18 @@ public class GazeHandler : MonoBehaviour
         _recognizer.HoldStartedEvent += RecognizerOnHoldStartedEvent;
         _recognizer.HoldCompletedEvent += RecognizerOnHoldCompletedEvent;
 
-        _recognizer.ManipulationStartedEvent += RecognizerOnManipulationStartedEvent;
-        _recognizer.ManipulationUpdatedEvent += RecognizerOnManipulationUpdatedEvent;
-        _recognizer.ManipulationCompletedEvent += RecognizerOnManipulationCompletedEvent;
-        _recognizer.ManipulationCanceledEvent += RecognizerOnManipulationCanceledEvent;
-
         _recognizer.StartCapturingGestures();
+
+
+        _manipulationRecognizer = new GestureRecognizer();
+        _manipulationRecognizer.SetRecognizableGestures(GestureSettings.ManipulationTranslate);
+
+        _manipulationRecognizer.ManipulationStartedEvent += RecognizerOnManipulationStartedEvent;
+        _manipulationRecognizer.ManipulationUpdatedEvent += RecognizerOnManipulationUpdatedEvent;
+        _manipulationRecognizer.ManipulationCompletedEvent += RecognizerOnManipulationCompletedEvent;
+        _manipulationRecognizer.ManipulationCanceledEvent += RecognizerOnManipulationCanceledEvent;
+
+        _manipulationRecognizer.StartCapturingGestures();
 
 #if !UNITY_WSA
         SpatialInteractionManager mgr = SpatialInteractionManager.GetForCurrentView();
@@ -120,15 +126,15 @@ public class GazeHandler : MonoBehaviour
 
     private void RecognizerOnHoldStartedEvent(InteractionSourceKind source, Ray headRay)
     {
-        Debug.Log("Start Hold mode.");
-        _holdState = true;
+        
+        //_holdState = true;
 
 
     }
 
     private void RecognizerOnHoldCompletedEvent(InteractionSourceKind source, Ray headRay)
     {
-        Debug.Log("End Hold mode.");
+        
 
         //_recognizer.StopCapturingGestures();
 
@@ -147,22 +153,18 @@ public class GazeHandler : MonoBehaviour
 
     private void RecognizerOnManipulationUpdatedEvent(InteractionSourceKind source, Vector3 normalizedOffset, Ray headRay)
     {
-        if (_holdState && _draggedObject != null)
+        if (_draggedObject != null)
         {
             Vector3 proposedPosition = _draggedObject.transform.position + (normalizedOffset - _navigationRailsStartOffset);
-            Vector3 newPosition = new Vector3(roundToNearest(proposedPosition.x), roundToNearest(proposedPosition.y), roundToNearest(proposedPosition.z));
+            //Vector3 newPosition = new Vector3(roundToNearest(proposedPosition.x), roundToNearest(proposedPosition.y), roundToNearest(proposedPosition.z));
            
-            _draggedObject.transform.position = newPosition;
-        }
-        else
-        {
-            _holdState = true;
-            _navigationRailsStartOffset = normalizedOffset;
+            _draggedObject.transform.position = proposedPosition;
         }
     }
 
     private void RecognizerOnManipulationStartedEvent(InteractionSourceKind source, Vector3 normalizedOffset, Ray headRay)
     {
+        Debug.Log("Start Drag.");
         _holdState = true;
         _draggedObject = _hitObject;
         _navigationRailsStartOffset = normalizedOffset;
@@ -170,12 +172,14 @@ public class GazeHandler : MonoBehaviour
 
     private void RecognizerOnManipulationCanceledEvent(InteractionSourceKind source, Vector3 normalizedOffset, Ray headRay)
     {
+        Debug.Log("Cancel Drag.");
         _draggedObject = null;
         _holdState = false;
     }
 
     private void RecognizerOnManipulationCompletedEvent(InteractionSourceKind source, Vector3 normalizedOffset, Ray headRay)
     {
+        Debug.Log("Completed Drag.");
         _draggedObject = null;
         _holdState = false;
     }
